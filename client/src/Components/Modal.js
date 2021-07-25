@@ -1,4 +1,4 @@
-import { Dialog, DialogTitle, DialogContent, makeStyles, Typography } from '@material-ui/core';
+import { Dialog, DialogTitle, DialogContent, Typography } from '@material-ui/core';
 import Button from './Form Field/Button';
 
 function Modal(props) {

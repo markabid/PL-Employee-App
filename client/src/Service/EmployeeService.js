@@ -1,3 +1,5 @@
+import Axios from 'axios';
+
 export const getStatesObject = () => ([
     { name: "Alabama", code: "AL" },
     { name: "Alaska", code: "AK" },
@@ -52,19 +54,17 @@ export const getStatesObject = () => ([
 ])
 
 export function createEmployee(data) {
-    //TODO: Connect to backend
+    return Axios.post('http://localhost:3001/create', {data});
 }
 
 export function updateEmployee(data) {
-    //TODO: Connect to backend
-
+    return Axios.post('http://localhost:3001/update', {data});
 }
 
 export function deleteEmployee(id) {
-    //TODO: Connect to backend
-
+    return Axios.post('http://localhost:3001/delete', {id});
 }
 
 export function getAllEmployees() {
-    //TODO: Connect to backend
+    return (Axios.get('http://localhost:3001/employees'));
 }

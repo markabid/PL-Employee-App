@@ -3,7 +3,7 @@ import EmployeeForm from "./EmployeeForm";
 import { makeStyles } from "@material-ui/core";
 import useTable from "../../Components/useTable";
 import * as EmployeeService from "../../Service/EmployeeService"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Input from "../../Components/Form Field/Input";
 import { Search } from "@material-ui/icons";
 import Button from "../../Components/Form Field/Button";
@@ -40,9 +40,15 @@ const headerCells = [
 function Employees(){
     const classes = styles();
     const [recordForEdit, setRecordForEdit] = useState(null)
-    const[records, setRecords] = useState(EmployeeService.getAllEmployees())
+    const [records, setRecords] = useState(null)
+    const [reloadEmployees, setReloadEmployees] = useState(0)
     const [filterFn, setFilterFn] = useState({ fn: items => { return items; } })
     const [openModal, setOpenModal] = useState(false)
+
+    useEffect(() => {
+        EmployeeService.getAllEmployees().then((response)=>{
+            setRecords(response.data);
+    })}, [reloadEmployees]);
 
     const{
         TableContainer,
@@ -55,7 +61,7 @@ function Employees(){
         let target = e.target;
         setFilterFn({
             fn: items => {
-                if (target.value == "")
+                if (target.value === "")
                     return items;
                 else
                     return items.filter(x => x.lastName.toLowerCase().includes(target.value.toLowerCase()) 
@@ -71,21 +77,25 @@ function Employees(){
     }
 
     const createEdit = (employee, resetForm) => {
-        if (employee.id == 0){
-            EmployeeService.createEmployee(employee)
+        if (employee.id === 0){
+            EmployeeService.createEmployee(employee).then((response)=>{
+                setReloadEmployees(x => x+1)
+            })
         }
         else{
-            EmployeeService.updateEmployee(employee)
+            EmployeeService.updateEmployee(employee).then((response)=>{
+                setReloadEmployees(x => x+1)
+            })
         }
         resetForm()
         setRecordForEdit(null)
         setOpenModal(false)
-        setRecords(EmployeeService.getAllEmployees())
     }
 
     const deleteEmployee = id => {
-        EmployeeService.deleteEmployee(id);
-        setRecords(EmployeeService.getAllEmployees())
+        EmployeeService.deleteEmployee(id).then((response)=>{
+            setReloadEmployees(x => x+1)
+        })
     }
 
     const openInModal = item => {

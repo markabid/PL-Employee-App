@@ -75,7 +75,7 @@ function useTable(records, headerCells, filterFn){
         page={page}
         rowsPerPageOptions={pages}
         rowsPerPage={rowsPerPage}
-        count={records.length}
+        count={records ? records.length : 0 }
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleChangeRowsPerPage}
     ></TablePagination>)
@@ -107,6 +107,7 @@ function useTable(records, headerCells, filterFn){
     }
 
     const pageSortRecords = () => {
+        if(!records) return [];
         return stableSort(filterFn.fn(records), getComparator(order, orderBy))
             .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
     }
