@@ -1,5 +1,5 @@
 # PL-Employee-App
-Simple/barebones employee directory web app with create/update/delete functionality. Built using react, node js and mysql.
+Simple/barebones employee directory web app with create/update/delete functionality. Built using react, material-ui, node js and mysql.
 
 ## Running the project on your local machine
 - Run `npm install` in both the 'server' and 'client' directory
